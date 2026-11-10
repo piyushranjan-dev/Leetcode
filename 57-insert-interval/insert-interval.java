@@ -1,27 +1,38 @@
+
+import java.util.*;
+
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        ArrayList<int[]> list=new ArrayList<>();
-        for(int[] row:intervals){
-            list.add(row);
+
+        List<int[]> result = new ArrayList<>();
+
+        int i = 0;
+        int n = intervals.length;
+
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            result.add(intervals[i]);
+            i++;
         }
-        list.add(newInterval);
-        int[][] arr=list.toArray(new int[0][]);
-        Arrays.sort(arr,(a,b)->Integer.compare(a[0],b[0]));
-        ArrayList<ArrayList<Integer>> l=new ArrayList<>();
-        l.add(new ArrayList<>(Arrays.asList(arr[0][0],arr[0][1])));
-        for(int i=1;i<arr.length;i++){
-            int last=l.size()-1;
-            if(l.get(last).get(1)>=arr[i][0]) {
-                l.get(last).set(1,Math.max(l.get(last).get(1),arr[i][1]));
-            }else{
-                l.add(new ArrayList<>(Arrays.asList(arr[i][0],arr[i][1])));
-            }
+System.out.println(Arrays.deepToString(result.toArray()));
+        while (i < n && intervals[i][0] <= newInterval[1]) {
+
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+
+            i++;
         }
-        int[][] arr1=new int[l.size()][];
-        for(int i=0;i<l.size();i++) {
-            arr1[i] = new int[l.get(i).size()];
-            for(int j=0;j<l.get(i).size();j++){
-                arr1[i][j]=l.get(i).get(j);
+System.out.println(Arrays.toString(newInterval));
+        result.add(newInterval);
+        while (i < n) {
+            result.add(intervals[i]);
+            i++;
+        }
+int[][] arr1=new int[result.size()][];
+        for(int i1=0;i1<result.size();i1++) {
+            arr1[i1] = new int[result.get(i1).length];
+            for(int j=0;j<result.get(i1).length;j++){
+                arr1[i1][j]=result.get(i1)[j];
             }
         }
         return arr1;
