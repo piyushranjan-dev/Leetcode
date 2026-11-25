@@ -20,8 +20,8 @@ class Solution {
         }
         int[][] t={
             {-1,0},
-            {1,0},
             {0,-1},
+            {1,0},
             {0,1}
         };
         while(!q.isEmpty()){
